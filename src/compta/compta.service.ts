@@ -2,8 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
-import { ComptaDto, CreateComptaDto } from './dto/compta.dto';
-import { nextTick } from 'process';
+import { UpdateComptaDto, CreateComptaDto } from './dto/compta.dto';
 
 @Injectable()
 export class ComptaService {
@@ -18,10 +17,19 @@ export class ComptaService {
             throw new InternalServerErrorException()
         }
       }
-    
-      async getOneById(id: string): Promise<Compta> {
+
+      async getPurchasesByRef(refModel: number, refId: string): Promise<Compta[]> {
         try {
-            return await this.comptaModel.findById(id).exec()
+            return await this.comptaModel.find({refModel, refId})
+        } catch (error) {
+            console.log(error)
+            throw new InternalServerErrorException()
+        }
+      }
+    
+      async getOneById(_id: string): Promise<Compta> {
+        try {
+            return await this.comptaModel.findById(_id).exec()
         } catch (error) {
             console.log(error)
             throw new InternalServerErrorException()
@@ -37,9 +45,9 @@ export class ComptaService {
         } 
       }
 
-      async update(id: number, comptaDto:ComptaDto): Promise<Compta> {
+      async update<Compta>(_id: string, comptaDto:UpdateComptaDto): Promise<Compta> {
         try {
-            return await this.comptaModel.findOneAndUpdate({ id }, comptaDto);
+            return await this.comptaModel.findByIdAndUpdate(_id, comptaDto, {new: true});
         } catch (error) {
             console.log(error)
             throw new InternalServerErrorException()
