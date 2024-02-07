@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ComptaModule } from './compta/compta.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { ComptaModule } from './compta/compta.module';
 
 @Module({
   imports: [
