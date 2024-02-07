@@ -2,7 +2,8 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
-import { UpdateComptaDto, CreateComptaDto } from './dto/compta.dto';
+import { CreateComptaDto } from './dto/create-compta.dto';
+import { UpdateComptaDto } from './dto/update-compta.dto';
 
 @Injectable()
 export class ComptaService {

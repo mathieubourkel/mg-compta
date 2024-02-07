@@ -1,9 +1,10 @@
 import { BadRequestException, Body, Controller, Delete, Get, InternalServerErrorException, Next, NotFoundException, Param, Post, Put, Req, ValidationPipe } from '@nestjs/common';
 import { ComptaService } from './compta.service';
-import { CreateComptaDto, UpdateComptaDto } from './dto/compta.dto';
 import { Observable, of } from 'rxjs';
 import { ModelEnum } from './enums/model.enum';
 import { Compta } from './schemas/compta.schema';
+import { CreateComptaDto } from './dto/create-compta.dto';
+import { UpdateComptaDto } from './dto/update-compta.dto';
 
 @Controller('compta')
 export class ComptaController {
