@@ -6,6 +6,6 @@ export class Price {
     fulltaxPrice :number
     @Prop()
     pretaxPrice :number
-    @Prop({ required: true })
+    @Prop({type: ()=> DeviseEnum, required:true})
     devise: DeviseEnum
 }

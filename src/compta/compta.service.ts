@@ -4,18 +4,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
 import { CreateComptaDto } from './dto/create-compta.dto';
 import { UpdateComptaDto } from './dto/update-compta.dto';
+import { BaseUtils } from 'libs/base/base.utils';
 
 @Injectable()
-export class ComptaService {
+export class ComptaService extends BaseUtils {
 
-    constructor(@InjectModel(Compta.name) private comptaModel: Model<Compta>) {}
+    constructor(@InjectModel(Compta.name) private comptaModel: Model<Compta>) {
+        super()
+    }
 
     async getAll(): Promise<Compta[]> {
         try {
             return await this.comptaModel.find()
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
 
@@ -23,8 +25,7 @@ export class ComptaService {
         try {
             return await this.comptaModel.find({refModel, refId})
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
     
@@ -32,8 +33,7 @@ export class ComptaService {
         try {
             return await this.comptaModel.findById(_id).exec()
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
     
@@ -41,8 +41,7 @@ export class ComptaService {
         try {
             return await this.comptaModel.create(createComptaDto)
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         } 
       }
 
@@ -50,8 +49,7 @@ export class ComptaService {
         try {
             return await this.comptaModel.findByIdAndUpdate(_id, comptaDto, {new: true});
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
           
       }
@@ -60,8 +58,7 @@ export class ComptaService {
         try {
             return await this.comptaModel.deleteOne({_id})
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
 }

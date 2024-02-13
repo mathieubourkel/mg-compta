@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose"
 import { HydratedDocument } from 'mongoose';
-import { Price } from "../class/price.class";
+import { Price } from "./price.schema";
 import { StatusEnum } from "../enums/status.enum";
 import { PaymentStatusEnum } from "../enums/paymentStatus.enum";
 import { TypeEnum } from "../enums/type.enum";
@@ -11,7 +11,7 @@ export type ComptaDocument = HydratedDocument<Compta>
 @Schema({collection: "compta", timestamps: true})
 export class Compta {
 
-    @Prop({required: true, default:ModelEnum.project})
+    @Prop({type: ()=> ModelEnum, required: true, default:ModelEnum.project})
     refModel:ModelEnum
 
     @Prop({required:true})
@@ -29,13 +29,13 @@ export class Compta {
     @Prop()
     commandOwner: string   // objectId MS-AUTH
 
-    @Prop()
+    @Prop({type: ()=> StatusEnum, required:true})
     status: StatusEnum
 
-    @Prop()
+    @Prop({type: ()=> PaymentStatusEnum, required: true})
     payment: PaymentStatusEnum
 
-    @Prop()
+    @Prop({type: ()=> TypeEnum, required: true})
     type: TypeEnum
 
     @Prop()

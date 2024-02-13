@@ -5,20 +5,31 @@ import { ModelEnum } from './enums/model.enum';
 import { Compta } from './schemas/compta.schema';
 import { CreateComptaDto } from './dto/create-compta.dto';
 import { UpdateComptaDto } from './dto/update-compta.dto';
+import { BaseUtils } from 'libs/base/base.utils';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('compta')
-export class ComptaController {
+export class ComptaController extends BaseUtils {
 
-    constructor(private readonly comptaService: ComptaService) {}
+    constructor(
+        private readonly comptaService: ComptaService) {
+            super()
+        }
 
-    @Get(`:refModel/:refId`)
-    async getPurchasesByIdRefModel(@Param() params:{refModel: string, refId: string}):Promise<Compta[]>{
+    @MessagePattern('TEST2')
+    async getCu(@Payload() data: any) {
+        console.log(data)
+        return "coucou from nats"
+    }
+
+    @MessagePattern('TEST')
+    async getPurchasesByIdRefModel(@Payload() data: any):Promise<Compta[]>{
         try {
-            const result = await this.comptaService.getPurchasesByRef(ModelEnum[`${params.refModel}`], params.refId)
-            if (!result) throw new NotFoundException()
+            const result = await this.comptaService.getPurchasesByRef(ModelEnum[`${data.refModel}`], data.refId)
+            if (!result) this._Ex("NOT-FIND", 400, "CC-22", "GET /compta/:refM/:refId")
             return result;
         } catch (error) {
-            throw new BadRequestException()
+            this._catchEx(error)
         }
   }
 
@@ -28,7 +39,7 @@ export class ComptaController {
             try {
                 return this.comptaService.create(createCompta)
             } catch (error) {
-                throw new InternalServerErrorException()
+                this._catchEx(error)
             }
         }
 
@@ -37,7 +48,7 @@ export class ComptaController {
         try {
             return of (this.comptaService.update<Compta>(id, compta))
         } catch (error) {
-            throw new BadRequestException()
+            this._catchEx(error)
         }
     }
 
@@ -46,7 +57,7 @@ export class ComptaController {
         try {
             return of (this.comptaService.delete(id))
         } catch (error) {
-            throw new BadRequestException()
+            this._catchEx(error)
         }
     }
 }

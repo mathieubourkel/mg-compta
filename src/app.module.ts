@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ComptaModule } from './compta/compta.module';
 
+@Global()
 @Module({
   imports: [
       ConfigModule.forRoot({isGlobal: true}), 
