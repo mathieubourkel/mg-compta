@@ -32,10 +32,10 @@ export class Compta {
     @Prop({type: ()=> StatusEnum, required:true})
     status: StatusEnum
 
-    @Prop({type: ()=> PaymentStatusEnum, required: true})
+    @Prop({type: ()=> PaymentStatusEnum})
     payment: PaymentStatusEnum
 
-    @Prop({type: ()=> TypeEnum, required: true})
+    @Prop({type: ()=> TypeEnum})
     type: TypeEnum
 
     @Prop()
