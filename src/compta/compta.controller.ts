@@ -1,49 +1,46 @@
-import {  Controller, ValidationPipe } from '@nestjs/common';
+import {  Controller, HttpException, HttpStatus, UseFilters, ValidationPipe } from '@nestjs/common';
 import { ComptaService } from './compta.service';
 import { ModelEnum } from './enums/model.enum';
 import { Compta } from './schemas/compta.schema';
 import { CreateComptaDto } from './dto/create-compta.dto';
 import { UpdateComptaDto } from './dto/update-compta.dto';
 import { BaseUtils } from 'libs/base/base.utils';
-import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
-import { AppService } from 'src/app.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class ComptaController extends BaseUtils {
 
-    constructor(
-        private readonly comptaService: ComptaService,
-        private readonly appService: AppService) {
-            super()
-        }
+    constructor(private readonly comptaService: ComptaService) {
+        super()
+    }
 
     @MessagePattern('GET_COMPTAS')
     async getPurchasesByIdRefModel(@Payload() params: {refModel:keyof typeof ModelEnum, refId:string}):Promise<Compta[]>{
         try {
             const result = await this.comptaService.getPurchasesByRef(ModelEnum[`${params.refModel}`], params.refId)
-            if (!result) this._Ex("NOT-FIND", 400, "CC-22", "GET /compta/:refM/:refId")
+            if (!result) this._Ex("BAD REQUEST", 400, "MS-COMPTA-CTRL-GET-PRCH")
             return result;
         } catch (error) {
-            return error
+            this._Ex("GET-COMPTA-FAILED", 400, error.message)
         }
     }
 
     @MessagePattern('POST_COMPTA')
     async create(@Payload(new ValidationPipe()) createCompta:CreateComptaDto):Promise<Compta>{
         try {
-            const result = await this.comptaService.create(createCompta)
-            this.appService.client.emit("ADD_LOG", result)
-            this.appService.client.emit("SEND_MAIL", result)
-            return result;
+            return await this.comptaService.create(createCompta)
         } catch (error) {
-            console.log("coucou", error)
-            throw error
+            this._Ex("CREATE-COMPTA-FAILED", 400, error.message)
         }
     }
 
     @MessagePattern('PUT_COMPTA')
-    async update(@Payload("body", new ValidationPipe()) body:UpdateComptaDto, @Payload('id') id:string){
-        return await this.comptaService.update<Compta>(id, body)
+    async update(@Payload('body', new ValidationPipe()) body:UpdateComptaDto, @Payload('id') id:string):Promise<Compta>{
+        try {
+           return await this.comptaService.update<Compta>(id, body)
+        } catch (error) {
+            this._Ex("UPDATE-COMPTA-FAILED", 400, error.message)
+        }
     }
 
     @MessagePattern('DELETE_COMPTA')
@@ -51,7 +48,7 @@ export class ComptaController extends BaseUtils {
         try {
             return await this.comptaService.delete(id)
         } catch (error) {
-            this._catchEx(error)
+            this._Ex("DELETE-COMPTA-FAILED", 400, error.message)
         }
     }
 }

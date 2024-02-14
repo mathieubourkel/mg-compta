@@ -6,17 +6,13 @@ export abstract class BaseUtils {
     message: string | string[],
     statusCode: number,
     code: string,
-    method: string,
   ): never => {
     throw new RpcException({
       message,
       statusCode,
       context: {
         ms: "compta",
-        error: {
-          exceptionPosition: method,
-          errorCode: code,
-        },
+        error: code
       },
     });
   };

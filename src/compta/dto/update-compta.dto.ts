@@ -3,7 +3,6 @@ import { Type } from "class-transformer";
 import { PriceDto } from "./price.dto";
 
 export class UpdateComptaDto  {
-    @IsOptional()
     @IsString()
     @Length(1, 150)
     description:string;

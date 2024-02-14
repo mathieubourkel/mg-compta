@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
@@ -47,11 +47,10 @@ export class ComptaService extends BaseUtils {
 
       async update<Compta>(_id: string, comptaDto:UpdateComptaDto): Promise<Compta> {
         try {
-            return await this.comptaModel.findByIdAndUpdate(_id, comptaDto, {new: true});
+            return await this.comptaModel.findByIdAndUpdate<Compta>(_id, comptaDto, {new: true});
         } catch (error) {
             this._catchEx(error)
         }
-          
       }
     
       async delete(_id: string) {
