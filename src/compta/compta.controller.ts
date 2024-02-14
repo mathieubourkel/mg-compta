@@ -18,9 +18,9 @@ export class ComptaController extends BaseUtils {
         }
 
     @MessagePattern('GET_COMPTAS')
-    async getPurchasesByIdRefModel(@Payload() data: any):Promise<Compta[]>{
+    async getPurchasesByIdRefModel(@Payload() params: {refModel:keyof typeof ModelEnum, refId:string}):Promise<Compta[]>{
         try {
-            const result = await this.comptaService.getPurchasesByRef(ModelEnum[`${data.refModel}`], data.refId)
+            const result = await this.comptaService.getPurchasesByRef(ModelEnum[`${params.refModel}`], params.refId)
             if (!result) this._Ex("NOT-FIND", 400, "CC-22", "GET /compta/:refM/:refId")
             return result;
         } catch (error) {
