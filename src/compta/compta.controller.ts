@@ -1,4 +1,4 @@
-import {  Controller, HttpException, HttpStatus, UseFilters, ValidationPipe } from '@nestjs/common';
+import {  Controller, ValidationPipe } from '@nestjs/common';
 import { ComptaService } from './compta.service';
 import { ModelEnum } from './enums/model.enum';
 import { Compta } from './schemas/compta.schema';

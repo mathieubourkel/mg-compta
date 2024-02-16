@@ -10,7 +10,7 @@ import { ComptaModule } from './compta/compta.module';
       ComptaModule,
       MongooseModule.forRoot(
         `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_DNS}`,
-        {dbName : process.env.MONGO_DB_NAME}
+        {dbName : process.env.MONGO_DB_COMPTA}
       )
     ]})
 export class AppModule {}
