@@ -18,7 +18,7 @@ export class Compta {
     refId: string
 
     @Prop({required:true})
-    creator: string   // // objectId MS-AUTH
+    owner: number
 
     @Prop({required:true})
     description: string

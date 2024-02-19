@@ -30,6 +30,7 @@ export class ComptaController extends BaseUtils {
         try {
             return await this.comptaService.create(createCompta)
         } catch (error) {
+            console.log(error)
             this._Ex("CREATE-COMPTA-FAILED", 400, error.message)
         }
     }
