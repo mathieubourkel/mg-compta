@@ -45,9 +45,9 @@ export class ComptaController extends BaseUtils {
     }
 
     @MessagePattern('DELETE_COMPTA')
-    async delete(@Payload() id:string){
+    async delete(@Payload() _id:string){
         try {
-            return await this.comptaService.delete(id)
+            return await this.comptaService.delete(_id)
         } catch (error) {
             this._Ex("DELETE-COMPTA-FAILED", 400, error.message)
         }
