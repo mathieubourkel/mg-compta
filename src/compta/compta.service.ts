@@ -1,30 +1,39 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
-import { ComptaDto, CreateComptaDto } from './dto/compta.dto';
-import { nextTick } from 'process';
+import { CreateComptaDto } from './dto/create-compta.dto';
+import { UpdateComptaDto } from './dto/update-compta.dto';
+import { BaseUtils } from 'libs/base/base.utils';
 
 @Injectable()
-export class ComptaService {
+export class ComptaService extends BaseUtils {
 
-    constructor(@InjectModel(Compta.name) private comptaModel: Model<Compta>) {}
+    constructor(@InjectModel(Compta.name) private comptaModel: Model<Compta>) {
+        super()
+    }
 
     async getAll(): Promise<Compta[]> {
         try {
             return await this.comptaModel.find()
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
+        }
+      }
+
+      async getPurchasesByRef(refModel: number, refId: string): Promise<Compta[]> {
+        try {
+            return await this.comptaModel.find({refModel, refId})
+        } catch (error) {
+            this._catchEx(error)
         }
       }
     
-      async getOneById(id: string): Promise<Compta> {
+      async getOneById(_id: string): Promise<Compta> {
         try {
-            return await this.comptaModel.findById(id).exec()
+            return await this.comptaModel.findById(_id).exec()
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
     
@@ -32,27 +41,23 @@ export class ComptaService {
         try {
             return await this.comptaModel.create(createComptaDto)
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         } 
       }
 
-      async update(id: number, comptaDto:ComptaDto): Promise<Compta> {
+      async update<Compta>(_id: string, comptaDto:UpdateComptaDto): Promise<Compta> {
         try {
-            return await this.comptaModel.findOneAndUpdate({ id }, comptaDto);
+            return await this.comptaModel.findByIdAndUpdate<Compta>(_id, comptaDto, {new: true});
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
-          
       }
     
       async delete(_id: string) {
         try {
             return await this.comptaModel.deleteOne({_id})
         } catch (error) {
-            console.log(error)
-            throw new InternalServerErrorException()
+            this._catchEx(error)
         }
       }
 }

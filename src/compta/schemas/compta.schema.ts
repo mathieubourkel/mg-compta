@@ -1,27 +1,51 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
+import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose"
 import { HydratedDocument } from 'mongoose';
-import * as mongoose from "mongoose"
-import { ComptaStatusEnum } from "../../enums/compta.enum";
+import { Price } from "./price.schema";
+import { StatusEnum } from "../enums/status.enum";
+import { PaymentStatusEnum } from "../enums/paymentStatus.enum";
+import { TypeEnum } from "../enums/type.enum";
+import { ModelEnum } from "../enums/model.enum";
 
 export type ComptaDocument = HydratedDocument<Compta>
 
 @Schema({collection: "compta", timestamps: true})
 export class Compta {
 
-    @Prop({required: true})
-    name:string
+    @Prop({type: ()=> ModelEnum, required: true, default:ModelEnum.project})
+    refModel:ModelEnum
 
     @Prop({required:true})
-    ref: string
+    refId: string
 
-    @Prop({required:true, default: ComptaStatusEnum.PENDING})
-    status: ComptaStatusEnum
+    @Prop({required:true})
+    owner: number
+
+    @Prop({required:true})
+    description: string
+
+    @Prop({type: Price, required: true})
+    price : Price
 
     @Prop()
-    price: number
+    commandOwner: string   // objectId MS-AUTH
+
+    @Prop({type: ()=> StatusEnum, required:true})
+    status: StatusEnum
+
+    @Prop({type: ()=> PaymentStatusEnum})
+    payment: PaymentStatusEnum
+
+    @Prop({type: ()=> TypeEnum})
+    type: TypeEnum
+
+    @Prop()
+    medias: string[]
 
     @Prop()
     commandDate: Date
+
+    @Prop()
+    paymentDate: Date
 
     @Prop()
     deliveryDate: Date
