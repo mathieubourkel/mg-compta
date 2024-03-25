@@ -8,9 +8,9 @@ import { ComptaService } from './compta.service';
   imports:[MongooseModule.forFeature([
     {name: Compta.name, schema: ComptaSchema},
   ])],
-
   controllers: [ComptaController],
-  providers: [ComptaService]
+  providers: [ComptaService],
+  exports: [ComptaService],
 })
 
 export class ComptaModule {}

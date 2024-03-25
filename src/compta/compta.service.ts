@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Compta } from './schemas/compta.schema';
 import { CreateComptaDto } from './dto/create-compta.dto';
 import { UpdateComptaDto } from './dto/update-compta.dto';
-import { BaseUtils } from 'libs/base/base.utils';
+import { BaseUtils } from '../../libs/base/base.utils';
 
 @Injectable()
 export class ComptaService extends BaseUtils {

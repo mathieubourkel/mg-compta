@@ -3,9 +3,9 @@ import { DeviseEnum } from "../enums/devise.enum"
 
 export class Price {
     @Prop()
-    fulltaxPrice :number
+    fulltaxPrice? :number
     @Prop()
-    pretaxPrice :number
+    pretaxPrice? :number
     @Prop({type: ()=> DeviseEnum, required:true})
     devise: DeviseEnum
 }

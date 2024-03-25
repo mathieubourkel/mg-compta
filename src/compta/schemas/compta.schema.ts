@@ -27,25 +27,25 @@ export class Compta {
     price : Price
 
     @Prop()
-    commandOwner: string   // objectId MS-AUTH
+    commandOwner?: string   // objectId MS-AUTH
 
     @Prop({type: ()=> StatusEnum, required:true})
     status: StatusEnum
 
     @Prop({type: ()=> PaymentStatusEnum})
-    payment: PaymentStatusEnum
+    payment?: PaymentStatusEnum
 
     @Prop({type: ()=> TypeEnum})
-    type: TypeEnum
+    type?: TypeEnum
 
     @Prop()
-    medias: string[]
+    medias?: string[]
 
     @Prop()
     commandDate: Date
 
     @Prop()
-    paymentDate: Date
+    paymentDate?: Date
 
     @Prop()
     deliveryDate: Date

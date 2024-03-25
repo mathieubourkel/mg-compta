@@ -4,7 +4,7 @@ import { ModelEnum } from './enums/model.enum';
 import { Compta } from './schemas/compta.schema';
 import { CreateComptaDto } from './dto/create-compta.dto';
 import { UpdateComptaDto } from './dto/update-compta.dto';
-import { BaseUtils } from 'libs/base/base.utils';
+import { BaseUtils } from '../../libs/base/base.utils';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()

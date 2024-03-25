@@ -9,8 +9,7 @@ import { ComptaModule } from './compta/compta.module';
       ConfigModule.forRoot({isGlobal: true}), 
       ComptaModule,
       MongooseModule.forRoot(
-        `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_DNS}`,
-        {dbName : process.env.MONGO_DB_COMPTA}
+        `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_DNS}`,{dbName : process.env.MONGO_DB_COMPTA}
       )
     ]})
 export class AppModule {}

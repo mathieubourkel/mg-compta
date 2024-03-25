@@ -3,10 +3,10 @@ import { IsInt, IsOptional, Max } from "class-validator";
 export class PriceDto {
     @IsOptional()
     @IsInt()
-    fullTaxPrice: number
+    fulltaxPrice: number
     @IsOptional()
     @IsInt()
-    preTaxPrice: number
+    pretaxPrice: number
     @IsInt()
     @Max(20)
     devise: number

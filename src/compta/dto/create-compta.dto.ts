@@ -1,5 +1,4 @@
-import { IsDateString, IsInt, IsString, Length, Max, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
+import { IsDateString, IsInt, IsString, Length, Max, } from "class-validator";
 import { PriceDto } from "./price.dto";
 
 export class CreateComptaDto {
@@ -9,10 +8,9 @@ export class CreateComptaDto {
     @IsString()
     refId:string;
     @IsString()
-    @Length(1, 150)
+    @Length(5, 150)
     description:string;
-    @ValidateNested()
-    @Type(() => PriceDto)
+    @IsInt()
     price:PriceDto
     @IsInt()
     @Max(3)
